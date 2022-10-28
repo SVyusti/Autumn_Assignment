@@ -1,0 +1,2 @@
+role_choices=[("developer","Developer"),("designer","Designer")]
+evaluation_choices=[("evaluated","Evaluated"),("not evaluated","not evaluated"),("qualified","qualified"),("not qualified","not qualified"),("called","called"),("not called","not called")]
