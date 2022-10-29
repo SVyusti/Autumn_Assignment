@@ -1,6 +1,5 @@
-from tkinter import RIDGE
 from django.shortcuts import render
-from backend.serializers.candidates import CandidatesSerializer
+from backend.serializers.candidates import CandidatesSerializer,CandidatesfoSerializer
 # Create your views here.
 from rest_framework import viewsets,permissions,filters
 from backend.models.candidates import Candidates
@@ -28,30 +27,37 @@ class CandidateModelViewSet(viewsets.ModelViewSet):
 
     @action(detail=False,methods=['POST'])
     def upload_data_to_model(self,request):
-        file=request.FILES["file"]
-        SId=request.FILES.get("SId")
-        RId=request.FILES.get("RId")
-        content=file.read()
-        file_content=ContentFile(content)
-        file_name=fs.save("_tmp.csv",file_content)
-        tmp_file=fs.path(file_name)
-        csv_file=open(tmp_file,errors="ignore")
-        reader=csv.reader(csv_file)
-        next(reader)
+        file=request.FILES.get("file")
+        SId=request.POST.get("SId")
+        RId=request.POST.get("RId")
+        # content=file.read()
+        # file_content=ContentFile(content)
+        # file_name=fs.save("_tmp.csv",file_content)
+        # tmp_file=fs.path(file_name)
+        # csv_file=open(tmp_file,errors="ignore")
+        # reader=csv.reader(csv_file)
+        # next(reader)
+        reader=csv.DictReader(
+            codecs.iterdecode(file,"utf-8"),delimiter=","
+        )
+        data=list(reader)
+        serializer=self.serializer_class(data=data,many=True)
+        serializer.is_valid(raise_exception=True)
         candidate_list=[]
-        for id,row in enumerate(reader):
+        for row in serializer.data:
             candidate_list.append(
                 Candidates(
-                    name=row[0],#['name'],
-                    EnrollmentNo=row[1],#['EnrollmentNo'],
-                    branch=row[2],#['branch'],
-                    EmailId=row[3],#['EmailId'],
-                    phone=row[4],#['phone'],
-                    role=row[5],#['role'],
-                    year=row[6],#['year'],
+                    name=row['name'],
+                    EnrollmentNo=row['EnrollmentNo'],
+                    branch=row['branch'],
+                    EmailId=row['EmailId'],
+                    phone=row['phone'],
+                    role=row['role'],
+                    year=row['year'],
                     RId=RId,#['RId'],
                     SId=SId,#['SId'],
-                    cg=row[9],#['cg'],
+                    cg=row['cg'],
+                    StudentId=row['StudentId'],
 
                 )
             )
