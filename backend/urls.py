@@ -6,11 +6,15 @@
 # urlpatterns=router.urls
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import season,candidate,user,round
+
+
+from .views import *
 from rest_framework.authtoken.views import obtain_auth_token
 router=DefaultRouter()
 router.register(r"seasons",season.SeasonModelViewSet,basename="season")
 router.register(r"candidates",candidate.CandidateModelViewSet,basename="candidate")
 router.register(r"users",user.UserModelViewSet,basename="user")
 router.register(r"round",round.RoundModelViewSet,basename="round")
+router.register(r"candidate_score",candidate_score.Candidate_scoreModelViewSet,basename="candidate_score")
+router.register(r"candidate_round",Candidate_roundModelViewSet,basename="candidate_round")
 urlpatterns=[path('login/',obtain_auth_token,name="obtain token"),]+router.urls

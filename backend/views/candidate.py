@@ -28,8 +28,8 @@ class CandidateModelViewSet(viewsets.ModelViewSet):
     @action(detail=False,methods=['POST'])
     def upload_data_to_model(self,request):
         file=request.FILES.get("file")
-        SId=request.POST.get("SId")
-        RId=request.POST.get("RId")
+        #SId=request.POST.get("SId")
+        #RId=request.POST.get("RId")
         # content=file.read()
         # file_content=ContentFile(content)
         # file_name=fs.save("_tmp.csv",file_content)
@@ -54,8 +54,8 @@ class CandidateModelViewSet(viewsets.ModelViewSet):
                     phone=row['phone'],
                     role=row['role'],
                     year=row['year'],
-                    RId=RId,#['RId'],
-                    SId=SId,#['SId'],
+                    RId=row['RId'],#RId,
+                    SId=row['SId'],#SId,
                     cg=row['cg'],
                     StudentId=row['StudentId'],
 

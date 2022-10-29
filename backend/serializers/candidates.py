@@ -14,3 +14,8 @@ class CandidatesSerializer(serializers.ModelSerializer):
     class Meta:
         model=candidates.Candidates
         fields="__all__"
+
+class CandidatesContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=candidates.Candidates
+        fields=['StudentId','name','phone']
