@@ -43,14 +43,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # <-- And here
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.authentication.IsAuthenticated',  # <-- And here
-    ],
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.TokenAuthentication',  
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#       'rest_framework.permissions.IsAuthenticated',
+#     ),
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

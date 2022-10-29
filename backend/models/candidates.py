@@ -12,5 +12,5 @@ class Candidates(models.Model):
     year=models.CharField(max_length=250)
     RId=models.ForeignKey('Round',on_delete=models.CASCADE,default=0)
     SId=models.ForeignKey('Season',on_delete=models.CASCADE,default=0)
-    status=models.CharField(max_length=250)
+    status=models.CharField(max_length=250,default="Registered")
     cg=models.FloatField()
