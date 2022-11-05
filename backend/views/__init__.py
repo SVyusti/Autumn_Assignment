@@ -5,3 +5,4 @@ from .section import SectionModelViewSet
 from .user import UserModelViewSet
 from .candidate_score import Candidate_scoreModelViewSet
 from .candidate_round import Candidate_roundModelViewSet
+from .login import *

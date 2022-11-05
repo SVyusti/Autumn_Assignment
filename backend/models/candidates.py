@@ -2,7 +2,7 @@ from django.db import models
 from .ChoiceType import role_choices
 
 class Candidates(models.Model):
-    StudentId=models.IntegerField(primary_key=True)
+    StudentId=models.AutoField(primary_key=True)
     name=models.CharField(max_length=250)
     EnrollmentNo=models.CharField(max_length=250)
     branch=models.CharField(max_length=250)

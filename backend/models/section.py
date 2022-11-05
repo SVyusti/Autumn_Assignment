@@ -5,7 +5,7 @@ from .ChoiceType import role_choices
 
 class Section(models.Model):
     # role_choices=(("developer","Developer"),("designer","Designer"))
-    SectionId=models.IntegerField(primary_key=True)
+    SectionId=models.AutoField(primary_key=True)
     name=models.CharField(max_length=100)
     role=models.CharField(max_length=50,choices=role_choices)
     max_marks=models.IntegerField()

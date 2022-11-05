@@ -17,4 +17,8 @@ router.register(r"users",user.UserModelViewSet,basename="user")
 router.register(r"round",round.RoundModelViewSet,basename="round")
 router.register(r"candidate_score",candidate_score.Candidate_scoreModelViewSet,basename="candidate_score")
 router.register(r"candidate_round",Candidate_roundModelViewSet,basename="candidate_round")
-urlpatterns=[path('login/',obtain_auth_token,name="obtain token"),]+router.urls
+urlpatterns=[
+    # path('get_oauth_token/',get_token),
+    path('send_oauth_token/',initial_login),
+    path('get_oauth_token/',GetToken)
+    ]+router.urls
