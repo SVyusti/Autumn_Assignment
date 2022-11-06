@@ -6,12 +6,12 @@ from django.shortcuts import redirect
 from decouple import config
 from rest_framework.views import APIView
 from django.contrib.auth import login, authenticate, logout
-from backend.models import User
+# from backend.models import User
 import requests
 from rest_framework import request
 from rest_framework import status
 from urllib.request import Request
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
 CLIENT_ID=config('CLIENT_ID')
@@ -100,6 +100,11 @@ def GetToken(request):
     else:
         return Response("not an Img member")
     return redirect("http://127.0.0.1:1000/")
+
+    @api_view([])
+    def logout_view(request):
+        if request.user.is_authenticated:
+            logout(request)
 
 
     
