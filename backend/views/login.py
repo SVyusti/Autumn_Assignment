@@ -42,7 +42,7 @@ def GetOrCreateUser(user_id,username,name,enrolment,year,branch,dob,email_id,pho
 @authentication_classes([])
 @permission_classes([])
 def GetToken(request):
-    print("________________________----------------------------------------------------------____________________________________")
+    
     print(request.GET.get('code',''))
     data={
         'client_id':CLIENT_ID,
