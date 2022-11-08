@@ -11,8 +11,10 @@ import requests
 from rest_framework import request
 from rest_framework import status
 from urllib.request import Request
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import get_user_model
+User=get_user_model()
 
 CLIENT_ID=config('CLIENT_ID')
 CLIENT_SECRET=config('CLIENT_SECRET')
@@ -35,6 +37,7 @@ def GetOrCreateUser(user_id,username,name,enrolment,year,branch,dob,email_id,pho
     except :
         print('hello')
         user=User.objects.create(UserId=user_id,username=username,name=name,EnrollmentNo=enrolment,branch=branch,year=year,EmailId=email_id,phone=phone,dob=dob)
+        user.save()
         return user
         # user=User.objects.get(username=username)
 
@@ -83,16 +86,16 @@ def GetToken(request):
     phone=value_dict['contactInformation']['primaryPhoneNumber']
     status=False
 
+    print(type(name),type(username),type(user_id),type(enrolment),type(year),type(branch),type(dob),type(email_id),type(phone))
     for role in value_dict['person']['roles']:
         if (role['role']=="Maintainer"):
             status=True
 
     if status==True:
         print('entered')
-        try:
-            user=GetOrCreateUser(user_id=user_id,username=username,name=name,branch=branch,year=year,dob=dob,email_id=email_id,phone=phone,enrolment=enrolment)
-        except:
-            return Response("User failed to create")
+        user=GetOrCreateUser(user_id=user_id,username=username,name=name,branch=branch,year=year,dob=dob,email_id=email_id,phone=phone,enrolment=enrolment)
+        # except:
+        #     return Response("User failed to create")
         try:
             login(request,user,backend=None)
         except:

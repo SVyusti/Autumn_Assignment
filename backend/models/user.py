@@ -15,8 +15,8 @@ class User(AbstractUser):
     EnrollmentNo=models.CharField(max_length=300,null=True,blank=True)
     role=models.CharField(max_length=300,choices=role_choices,blank=True,null=True)
     branch=models.CharField(max_length=300,null=True,blank=True)
-    year=models.CharField(max_length=300,null=True,blank=True)
-    EmailId=models.CharField(max_length=200,blank=True)
+    year=models.IntegerField(null=True,blank=True)
+    EmailId=models.CharField(max_length=200,blank=True,null=True)
     USERNAME_FIELD='UserId'
     REQUIRED_FIELDS=['email','username']
     phone=models.CharField(max_length=300,null=True,blank=True)
