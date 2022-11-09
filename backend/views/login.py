@@ -27,11 +27,10 @@ def get_username(username):
             return None
 
 
-@api_view(['POST'])
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
-        return Response("logged out")
+        return redirect("http://127.0.0.1:8000/")
 
 @api_view(['GET'])
 @authentication_classes([])
