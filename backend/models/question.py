@@ -8,3 +8,4 @@ class Question(models.Model):
     ModelAnswer=models.CharField(max_length=1000)
     TotalMarks=models.IntegerField()
     SeId=models.ForeignKey('Section',on_delete=models.CASCADE,default=0)
+    

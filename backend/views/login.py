@@ -19,23 +19,36 @@ User=get_user_model()
 CLIENT_ID=config('CLIENT_ID')
 CLIENT_SECRET=config('CLIENT_SECRET')
 
+
+def get_username(username):
+        try:
+            return User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
+
+
+@api_view(['POST'])
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return Response("logged out")
+
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
 def initial_login(request):
-    url=f'https://channeli.in/oauth/authorise/?client_id={CLIENT_ID}&redirect_uri=http://127.0.0.1:1000/get_oauth_token/'
+    url=f'https://channeli.in/oauth/authorise/?client_id={CLIENT_ID}&redirect_uri=http://127.0.0.1:8000/get_oauth_token/'
     return redirect(url)
 
 
 def GetOrCreateUser(user_id,username,name,enrolment,year,branch,dob,email_id,phone):
     # user=User.objects.create_user(user_id,username,name,enrolment,branch,year,email_id,phone,dob)
-    print("created")
-    print(user_id)
     try:
         user=User.objects.get(username=username)
+        print(user)
         return user
-    except :
-        print('hello')
+    except User.DoesNotExist :
+        # print('hello')
         user=User.objects.create(UserId=user_id,username=username,name=name,EnrollmentNo=enrolment,branch=branch,year=year,EmailId=email_id,phone=phone,dob=dob)
         user.save()
         return user
@@ -51,21 +64,18 @@ def GetToken(request):
         'client_id':CLIENT_ID,
         'client_secret':CLIENT_SECRET,
         "grant_type":"authorization_code",
-        "redirect_uri":"http://127.0.0.1:1000/get_oauth_token/",
+        "redirect_uri":"http://127.0.0.1:8000/get_oauth_token/",
         "code":request.GET.get('code',None),
     }
     
     response=requests.post('https://channeli.in/open_auth/token/',data)
-    print('done')
-    print(response.status_code)
+    # print('done')
+    # print(response.status_code)
     data=response.json()
-    print(data)
+    # print(data)
     ACCESS_TOKEN=data['access_token']
     REFRESH_TOKEN=data['refresh_token']
-    TOKEN_TYPE=data['token_type']
-    print(ACCESS_TOKEN)
-    print(REFRESH_TOKEN)
-    print(TOKEN_TYPE)    
+    TOKEN_TYPE=data['token_type']  
     header={
         "Authorization":"Bearer "+ACCESS_TOKEN
     }
@@ -73,7 +83,7 @@ def GetToken(request):
     values=requests.get('https://channeli.in/open_auth/get_user_data/',headers=header)
         
     value_dict=values.json()
-    print(value_dict)
+    # print(value_dict)
 
     name=value_dict['person']['fullName']
     username=value_dict['username']
@@ -92,23 +102,23 @@ def GetToken(request):
             status=True
 
     if status==True:
-        print('entered')
-        user=GetOrCreateUser(user_id=user_id,username=username,name=name,branch=branch,year=year,dob=dob,email_id=email_id,phone=phone,enrolment=enrolment)
-        # except:
-        #     return Response("User failed to create")
+        try:
+            # print('entered')
+            user=GetOrCreateUser(user_id=user_id,username=username,name=name,branch=branch,year=year,dob=dob,email_id=email_id,phone=phone,enrolment=enrolment)
+        except:
+            return Response("User failed to create")
         try:
             login(request,user,backend=None)
+            return Response("LoggedIn")
         except:
             return Response("Login failed")
     else:
         return Response("not an Img member")
-    return redirect("http://127.0.0.1:1000/")
+    return redirect("http://127.0.0.1:8000/")
 
-    @api_view([])
-    def logout_view(request):
-        if request.user.is_authenticated:
-            logout(request)
+   
 
+    
 
     
 

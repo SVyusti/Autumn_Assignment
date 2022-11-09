@@ -17,8 +17,12 @@ router.register(r"users",user.UserModelViewSet,basename="user")
 router.register(r"round",round.RoundModelViewSet,basename="round")
 router.register(r"candidate_score",candidate_score.Candidate_scoreModelViewSet,basename="candidate_score")
 router.register(r"candidate_round",Candidate_roundModelViewSet,basename="candidate_round")
+router.register(r"question",QuestionModelViewSet,basename="question")
+router.register(r"evaluators",EvaluatorsModelViewSet,basename="evaluators")
 urlpatterns=[
     # path('get_oauth_token/',get_token),
     path('send_oauth_token/',initial_login),
-    path('get_oauth_token/',GetToken)
+    path('get_oauth_token/',GetToken),
+    path('get_username/',get_username),
+    path('Log_out/',logout_view)
     ]+router.urls
