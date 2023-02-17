@@ -32,6 +32,13 @@ def logout_view(request):
         logout(request)
         return redirect("http://127.0.0.1:8000/")
 
+def check_log(request):
+    if request.user.is_authenticated:
+        print("verified")
+        return redirect("http://127.0.0.1:3000/SeasonList/")
+    else:
+        print("not verified")
+
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
@@ -108,16 +115,9 @@ def GetToken(request):
             return Response("User failed to create")
         try:
             login(request,user,backend=None)
-            return Response("LoggedIn")
         except:
             return Response("Login failed")
     else:
         return Response("not an Img member")
-    return redirect("http://127.0.0.1:8000/")
 
-   
-
-    
-
-    
-
+    return redirect("http://127.0.0.1:8000/Check/")

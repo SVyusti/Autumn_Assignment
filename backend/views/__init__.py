@@ -8,3 +8,4 @@ from .candidate_round import *
 from .login import *
 from .question import *
 from .evaluators import *
+from .setCSRFCookie import *

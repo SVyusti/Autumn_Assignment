@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'backend',
     'django_filters',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL='backend.User'
@@ -50,6 +52,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication', 
     ),
     'DEFAULT_PERMISSION_CLASSES': (
+      'rest_framework.permissions.AllowAny',
       'rest_framework.permissions.IsAuthenticated',
     ),
     'USER_DETAILS_SERIALIZER':('backend.serializers.UserSerializer'),
@@ -59,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -70,7 +74,7 @@ ROOT_URLCONF = 'assignment.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'frontend/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,3 +143,27 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTHENTICATION_BACKENDS=('django.contrib.auth.backends.ModelBackend')
+
+STATIC_URL='/static/'
+
+
+STATIC_ROOT=os.path.join(BASE_DIR,'static')
+
+CORS_ORIGIN_ALLOW_ALL = True  
+CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+]
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+)
+CORS_ALLOW_METHODS = [
+    'PUT', 'GET', 'HEAD', 'POST', 'DELETE', 'OPTIONS', 'PATCH',
+]
