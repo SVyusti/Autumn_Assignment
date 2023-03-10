@@ -35,7 +35,7 @@ def logout_view(request):
 def check_log(request):
     if request.user.is_authenticated:
         print("verified")
-        return redirect("http://127.0.0.1:3000/SeasonList/")
+        return redirect("http://127.0.0.1:3000/Dashboard/")
     else:
         print("not verified")
 
